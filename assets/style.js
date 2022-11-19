@@ -50,23 +50,51 @@ class showForcast {
          <h5 class="card-title">Current Weather Conditions</h5>
         <div class="card text-center" style="width: 18rem;">
             <div class="card-body justify-content-center">
-                <h6 class="card-head">${data.city.name}</h6>
+                <h6 class="card-head">${data.city.name} ${data.list[0].dt_txt} ${data.list[0].weather[0].icon}</h6>
                 <p class="card-text">Current Temperature: ${data.list[0].main.temp} °F</p>
                 <p class="card-text">High Temperature ${data.list[0].main.temp_max} °F</p>
                 <p class="card-text">Low Temperature ${data.list[0].main.temp_min} °F</p>
                 <p class="card-text">Humidity ${data.list[0].main.humidity} %</p>
                 <p class="card-text">Feels Like  ${data.list[0].main.feels_like} °F</p>
-                <p class="card-text">Wind Speed ${data.list[0].wind.gust} mph</p>
+                <p class="card-text">Wind Speed ${data.list[0].wind.speed} mph</p>
                 <p class="card-text"> ${data.list[0].weather[0].description} </p>
-             </div>
+            </div>
+        </div>
+
+        <div class="card text-center" style="width: 18rem;">
+            <div class="card-body justify-content-center">
+                <h1>5 Day Forecast</h1>
+            </div>
         </div>
 
         <div class="row row-cols-2 row-cols-lg-5 g-2 g-lg-3">
           <div class="col">
-            <div class="p-3 border bg-light">Row column</div>
+            <div class="p-3 border bg-light">
+                <div class="card-body justify-content-center">
+                    <h6 class="card-head">${data.list[6].dt_txt} ${data.list[6].weather[0].icon}</h6>
+                    <p class="card-text">Current Temperature: ${data.list[6].main.temp} °F</p>
+                    <p class="card-text">High Temperature ${data.list[6].main.temp_max} °F</p>
+                    <p class="card-text">Low Temperature ${data.list[6].main.temp_min} °F</p>
+                    <p class="card-text">Humidity ${data.list[6].main.humidity} %</p>
+                    <p class="card-text">Feels Like  ${data.list[6].main.feels_like} °F</p>
+                    <p class="card-text">Wind Speed ${data.list[6].wind.speed} mph</p>
+                    <p class="card-text"> ${data.list[6].weather[0].description} </p>
+                </div>
+            </div>
           </div>
           <div class="col">
-            <div class="p-3 border bg-light">Row column</div>
+            <div class="p-3 border bg-light">
+                <div class="card-body justify-content-center">
+                    <h6 class="card-head">${data.list[14].dt_txt} ${data.list[14].weather[0].icon}</h6>
+                    <p class="card-text">Current Temperature: ${data.list[14].main.temp} °F</p>
+                    <p class="card-text">High Temperature ${data.list[14].main.temp_max} °F</p>
+                    <p class="card-text">Low Temperature ${data.list[14].main.temp_min} °F</p>
+                    <p class="card-text">Humidity ${data.list[14].main.humidity} %</p>
+                    <p class="card-text">Feels Like  ${data.list[14].main.feels_like} °F</p>
+                    <p class="card-text">Wind Speed ${data.list[14].wind.speed} mph</p>
+                    <p class="card-text"> ${data.list[14].weather[0].description} </p>
+                </div>
+            </div>
           </div>
           <div class="col">
             <div class="p-3 border bg-light">Row column</div>
