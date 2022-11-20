@@ -17,14 +17,14 @@ class weather{
     const currentConditions = await fetch(`https://api.openweathermap.org/data/2.5/weather?lat=${coordinates[0].lat}&lon=${coordinates[0].lon}&exclude=hourly,minutely&appid=${myKey}&units=imperial`);
 
     var storedCurrentConditions = await currentConditions.json();
-    console.log(storedCurrentConditions)
+    
     
     // fetches the 5 day forcast
     const forecast = await fetch(
         `https://api.openweathermap.org/data/2.5/forecast?lat=${coordinates[0].lat}&lon=${coordinates[0].lon}&appid=${myKey}&units=imperial`
       );
     var storedForecast = await forecast.json();
-
+console.log(storedForecast)
     return storedForecast;
     }
 }
@@ -160,6 +160,8 @@ function Clear(){
   
   var W =new weather();
 var show =new showForcast();
+var CW = new currentWeather();
+var SC = new showCurrent();
 var search = document.getElementById("Search-bar");
 var button = document.getElementById("search-btn");
 button.addEventListener("click", () => {
@@ -167,12 +169,16 @@ button.addEventListener("click", () => {
     const current = search.value;
     search.value = '';
     W.fetchWeather(current).then((data) => {
-        console.log(data)
+        console.log(data);
       show.displayForecast(data);
       show.Store(data);
       show.addCity(data);
 
     });
+    CW.fetchCurrent(current).then((data) => {
+        console.log(data);
+        SC.displayCurrent(data);
+        });
 
   });
   
