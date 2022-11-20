@@ -12,20 +12,18 @@ class weather{
     console.log(location)
     // stores input as a json
     var coordinates = await location.json();
-    console.log(coordinates)
+  
     // fetches current conditions
-    const currentConditions = await fetch(`https://api.openweathermap.org/data/2.5/weather?lat=${coordinates[0].lat}&lon=${coordinates[0].lon}&appid=${myKey}&units=imperial`);
-    console.log(currentConditions)
+    const currentConditions = await fetch(`https://api.openweathermap.org/data/2.5/weather?lat=${coordinates[0].lat}&lon=${coordinates[0].lon}&exclude=hourly,minutely&appid=${myKey}&units=imperial`);
+
     var storedCurrentConditions = await currentConditions.json();
-    console.log(storedCurrentConditions);
+    console.log(storedCurrentConditions)
     
     // fetches the 5 day forcast
     const forecast = await fetch(
         `https://api.openweathermap.org/data/2.5/forecast?lat=${coordinates[0].lat}&lon=${coordinates[0].lon}&appid=${myKey}&units=imperial`
       );
-        console.log(forecast)
     var storedForecast = await forecast.json();
-    console.log(storedForecast);
 
     return storedForecast;
     }
@@ -45,8 +43,8 @@ class showForcast {
 
             <div class="container">
                 <h5 class="card-title">Current Weather Conditions</h5>
-                <div class="card text-center" style="width: 18rem;">
-                    <div class="card-body justify-content-center">
+                <div class="card text-center " style="width: 18rem;">
+                    <div class="card-body justify-content-center text-center">
                         <h6 class="card-head">${data.city.name} </h6>
                         <p class="card-text">Current Temperature: ${data.list[0].dt_txt} ${data.list[0].weather[0].icon}</p>
                         <p class="card-text">Current Temperature: ${data.list[0].main.temp} °F</p>
@@ -66,7 +64,7 @@ class showForcast {
                 <div class="row row-cols-2 row-cols-lg-5 g-2 g-lg-3">
                     <div class="col">
                         <div class="p-3 border bg-light">
-                            <div class="card-body justify-content-center">
+                            <div class="card-body justify-content-center text-center">
                                 <h6 class="card-head">${data.list[4].dt_txt} ${data.list[4].weather[0].icon}</h6>
                                 <p class="card-text">Current Temperature: ${data.list[4].main.temp} °F</p>
                                 <p class="card-text">High Temperature ${data.list[4].main.temp_max} °F</p>
@@ -80,7 +78,7 @@ class showForcast {
                     </div>
                     <div class="col">
                         <div class="p-3 border bg-light">
-                            <div class="card-body justify-content-center">
+                            <div class="card-body justify-content-center text-center">
                                 <h6 class="card-head">${data.list[12].dt_txt} ${data.list[12].weather[0].icon}</h6>
                                 <p class="card-text">Current Temperature: ${data.list[12].main.temp} °F</p>
                                 <p class="card-text">High Temperature ${data.list[12].main.temp_max} °F</p>
@@ -94,7 +92,7 @@ class showForcast {
                     </div>
                     <div class="col">
                         <div class="p-3 border bg-light">
-                            <div class="card-body justify-content-center">
+                            <div class="card-body justify-content-center text-center">
                                 <h6 class="card-head">${data.list[20].dt_txt} ${data.list[20].weather[0].icon}</h6>
                                 <p class="card-text">Current Temperature: ${data.list[20].main.temp} °F</p>
                                 <p class="card-text">High Temperature ${data.list[20].main.temp_max} °F</p>
@@ -108,7 +106,7 @@ class showForcast {
                     </div>
                     <div class="col">
                         <div class="p-3 border bg-light">
-                            <div class="card-body justify-content-center">
+                            <div class="card-body justify-content-center text-center">
                                 <h6 class="card-head">${data.list[28].dt_txt} ${data.list[28].weather[0].icon}</h6>
                                 <p class="card-text">Current Temperature: ${data.list[28].main.temp} °F</p>
                                 <p class="card-text">High Temperature ${data.list[28].main.temp_max} °F</p>
@@ -122,7 +120,7 @@ class showForcast {
                     </div>
                     <div class="col">
                         <div class="p-3 border bg-light">
-                            <div class="card-body justify-content-center">
+                            <div class="card-body justify-content-center text-center">
                                 <h6 class="card-head">${data.list[36].dt_txt} ${data.list[36].weather[0].icon}</h6>
                                 <p class="card-text">Current Temperature: ${data.list[36].main.temp} °F</p>
                                 <p class="card-text">High Temperature ${data.list[36].main.temp_max} °F</p>
@@ -155,17 +153,17 @@ class showForcast {
         localStorage.setItem(`${data.city.name}`,JSON.stringify(data))
     }
   }
-//   addCity(data) {
-//     var cityAdd = document.getElementById("display");
-//     console.log(data)
-//     cityAdd.innerHTML += `<p>${data.city.name}</p>`;
-//   };
+function Clear(){
+    forecast = document.getElementById("forecast")
+    forecast.innerHTML= ""
+}
   
   var W =new weather();
 var show =new showForcast();
 var search = document.getElementById("Search-bar");
 var button = document.getElementById("search-btn");
 button.addEventListener("click", () => {
+    Clear();
     const current = search.value;
     search.value = '';
     W.fetchWeather(current).then((data) => {
@@ -173,6 +171,7 @@ button.addEventListener("click", () => {
       show.displayForecast(data);
       show.Store(data);
       show.addCity(data);
+
     });
 
   });

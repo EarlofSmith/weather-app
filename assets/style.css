@@ -4,8 +4,23 @@
 .h1 {
     text-align: center;
     justify-content: center;
-    color: red;
+    color: white;
+    padding: 20px;
+    
 }
 .navbar {
 
+}
+
+.card {
+    align-content: stretch;
+    justify-content: center;
+}
+.container {
+
+}
+
+.forecast {
+    background-color: blue;
+    color: white;
 }
