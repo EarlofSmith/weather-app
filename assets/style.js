@@ -41,29 +41,15 @@ class showForcast {
         console.log(data);
         this.container.innerHTML += `
 
-            <div class="container">
-                <h5 class="card-title">Current Weather Conditions</h5>
-                <div class="card text-center " style="width: 18rem;">
-                    <div class="card-body justify-content-center text-center">
-                        <h6 class="card-head">${data.city.name} </h6>
-                        <p class="card-text">Current Temperature: ${data.list[0].dt_txt} ${data.list[0].weather[0].icon}</p>
-                        <p class="card-text">Current Temperature: ${data.list[0].main.temp} °F</p>
-                        <p class="card-text">High Temperature ${data.list[0].main.temp_max} °F</p>
-                        <p class="card-text">Low Temperature ${data.list[0].main.temp_min} °F</p>
-                        <p class="card-text">Humidity ${data.list[0].main.humidity} %</p>
-                        <p class="card-text">Feels Like  ${data.list[0].main.feels_like} °F</p>
-                        <p class="card-text">Wind Speed ${data.list[0].wind.speed} mph</p>
-                        <p class="card-text"> ${data.list[0].weather[0].description} </p>
-                    </div>
-                </div>
-                <div class="card text-center" style="width: 18rem;">
-                    <div class="card-body justify-content-center">
-                        <h1>5 Day Forecast</h1>
+
+                <div class="">
+                    <div class="">
+                        <h1 class="h1 bg-primary color-white">5 Day Forecast</h1>
                     </div>
                 </div>
                 <div class="row row-cols-2 row-cols-lg-5 g-2 g-lg-3">
                     <div class="col">
-                        <div class="p-3 border bg-light">
+                        <div class="p-3 border bg-primary text-light">
                             <div class="card-body justify-content-center text-center">
                                 <h6 class="card-head">${data.list[4].dt_txt} ${data.list[4].weather[0].icon}</h6>
                                 <p class="card-text">Current Temperature: ${data.list[4].main.temp} °F</p>
@@ -77,7 +63,7 @@ class showForcast {
                         </div>
                     </div>
                     <div class="col">
-                        <div class="p-3 border bg-light">
+                        <div class="p-3 border bg-primary text-light">
                             <div class="card-body justify-content-center text-center">
                                 <h6 class="card-head">${data.list[12].dt_txt} ${data.list[12].weather[0].icon}</h6>
                                 <p class="card-text">Current Temperature: ${data.list[12].main.temp} °F</p>
@@ -91,7 +77,7 @@ class showForcast {
                         </div>
                     </div>
                     <div class="col">
-                        <div class="p-3 border bg-light">
+                        <div class="p-3 border bg-primary text-light">
                             <div class="card-body justify-content-center text-center">
                                 <h6 class="card-head">${data.list[20].dt_txt} ${data.list[20].weather[0].icon}</h6>
                                 <p class="card-text">Current Temperature: ${data.list[20].main.temp} °F</p>
@@ -105,7 +91,7 @@ class showForcast {
                         </div>
                     </div>
                     <div class="col">
-                        <div class="p-3 border bg-light">
+                        <div class="p-3 border bg-primary text-light">
                             <div class="card-body justify-content-center text-center">
                                 <h6 class="card-head">${data.list[28].dt_txt} ${data.list[28].weather[0].icon}</h6>
                                 <p class="card-text">Current Temperature: ${data.list[28].main.temp} °F</p>
@@ -119,7 +105,7 @@ class showForcast {
                         </div>
                     </div>
                     <div class="col">
-                        <div class="p-3 border bg-light">
+                        <div class="p-3 border bg-primary text-light">
                             <div class="card-body justify-content-center text-center">
                                 <h6 class="card-head">${data.list[36].dt_txt} ${data.list[36].weather[0].icon}</h6>
                                 <p class="card-text">Current Temperature: ${data.list[36].main.temp} °F</p>
@@ -148,14 +134,40 @@ class showForcast {
     
     addCity(data) {
         var cityAdd = document.getElementById("display");
-        console.log(data)
-        cityAdd.innerHTML += `<p>${data.city.name}</p>`;
-        localStorage.setItem(`${data.city.name}`,JSON.stringify(data))
+        console.log(cityAdd);
+        cityAdd.innerHTML += `<button type="button" id="${data.city.name}" class="btn btn-primary btn-lg p-3">${data.city.name}</button>`;
+        localStorage.setItem(`${data.city.name}`,JSON.stringify(data));
+       
+        var cityRecalBtn =document.getElementById(`${data.city.name}`);
+        console.log(cityRecalBtn);
+        cityRecalBtn.addEventListener("click", () => {
+            Clear();
+            console.log(`${data.city.name}`);
+            const current = localStorage.getItem(`${data.city.name}`)
+            // fetches and displays 5 day forecast
+            W.fetchWeather(current).then((data) => {
+                console.log(data);
+              show.displayForecast(data);
+              show.Store(data);
+              
+        
+            });
+            // fetches and displays current weather
+            CW.fetchCurrent(current).then((data) => {
+                console.log(data);
+                SC.displayCurrent(data);
+                });
+        
+          });
+        
     }
+    
   }
 function Clear(){
-    forecast = document.getElementById("forecast")
-    forecast.innerHTML= ""
+    forecast = document.getElementById("forecast");
+    forecast.innerHTML= "";
+    local = document.getElementById("current-weather");
+    local.innerHTML = "";
 }
   
   var W =new weather();
@@ -168,6 +180,7 @@ button.addEventListener("click", () => {
     Clear();
     const current = search.value;
     search.value = '';
+    // fetches and displays 5 day forecast
     W.fetchWeather(current).then((data) => {
         console.log(data);
       show.displayForecast(data);
@@ -175,6 +188,7 @@ button.addEventListener("click", () => {
       show.addCity(data);
 
     });
+    // fetches and displays current weather
     CW.fetchCurrent(current).then((data) => {
         console.log(data);
         SC.displayCurrent(data);

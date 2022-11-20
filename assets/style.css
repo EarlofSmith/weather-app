@@ -1,5 +1,5 @@
 .btn {
-
+padding: 15px;
 }
 .h1 {
     text-align: center;
@@ -13,8 +13,7 @@
 }
 
 .card {
-    align-content: stretch;
-    justify-content: center;
+    
 }
 .container {
 
@@ -23,4 +22,8 @@
 .forecast {
     background-color: blue;
     color: white;
+}
+.citys {
+padding: 10px;
+justify-content: space-around;
 }

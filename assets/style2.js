@@ -28,10 +28,10 @@ class showCurrent {
     displayCurrent(data) {
         console.log(data);
         this.container.innerHTML += `
-
-            <div class="container">
-                <h5 class="card-title">Current Weather Conditions</h5>
-                <div class="card text-center " style="width: 18rem;">
+            <h5 class="h1 bg-primary color-white">Current Weather Conditions</h5>
+            <div class="container d-flex justify-content-center p-3">
+                
+                <div class="card text-center bg-primary text-light  " style="width: 18rem;">
                     <div class="card-body justify-content-center text-center">
                         <h6 class="card-head">${data.name} </h6>
                         <p class="card-text">Current Temperature: ${data.main.temp} ${data.weather[0].icon}</p>
