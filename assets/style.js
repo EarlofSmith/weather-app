@@ -39,6 +39,7 @@ class showForcast {
 
     displayForecast(data) {
         console.log(data);
+        console.log(`${data.list[4].weather[0].icon}`)
         this.container.innerHTML += `
 
 
@@ -51,7 +52,7 @@ class showForcast {
                     <div class="col">
                         <div class="p-3 border bg-primary text-light">
                             <div class="card-body justify-content-center text-center">
-                                <h6 class="card-head">${data.list[4].dt_txt} ${data.list[4].weather[0].icon}</h6>
+                                <h6 class="card-head">${data.list[4].dt_txt} <img src= http://openweathermap.org/img/w/${data.list[4].weather[0].icon}.png></h6>
                                 <p class="card-text">Current Temperature: ${data.list[4].main.temp} °F</p>
                                 <p class="card-text">High Temperature ${data.list[4].main.temp_max} °F</p>
                                 <p class="card-text">Low Temperature ${data.list[4].main.temp_min} °F</p>
@@ -65,7 +66,7 @@ class showForcast {
                     <div class="col">
                         <div class="p-3 border bg-primary text-light">
                             <div class="card-body justify-content-center text-center">
-                                <h6 class="card-head">${data.list[12].dt_txt} ${data.list[12].weather[0].icon}</h6>
+                                <h6 class="card-head">${data.list[12].dt_txt} <img src= http://openweathermap.org/img/w/${data.list[12].weather[0].icon}.png></h6>
                                 <p class="card-text">Current Temperature: ${data.list[12].main.temp} °F</p>
                                 <p class="card-text">High Temperature ${data.list[12].main.temp_max} °F</p>
                                 <p class="card-text">Low Temperature ${data.list[12].main.temp_min} °F</p>
@@ -79,7 +80,7 @@ class showForcast {
                     <div class="col">
                         <div class="p-3 border bg-primary text-light">
                             <div class="card-body justify-content-center text-center">
-                                <h6 class="card-head">${data.list[20].dt_txt} ${data.list[20].weather[0].icon}</h6>
+                                <h6 class="card-head">${data.list[20].dt_txt} <img src= http://openweathermap.org/img/w/${data.list[20].weather[0].icon}.png></h6>
                                 <p class="card-text">Current Temperature: ${data.list[20].main.temp} °F</p>
                                 <p class="card-text">High Temperature ${data.list[20].main.temp_max} °F</p>
                                 <p class="card-text">Low Temperature ${data.list[20].main.temp_min} °F</p>
@@ -93,7 +94,7 @@ class showForcast {
                     <div class="col">
                         <div class="p-3 border bg-primary text-light">
                             <div class="card-body justify-content-center text-center">
-                                <h6 class="card-head">${data.list[28].dt_txt} ${data.list[28].weather[0].icon}</h6>
+                                <h6 class="card-head">${data.list[28].dt_txt} <img src= http://openweathermap.org/img/w/${data.list[28].weather[0].icon}.png></h6>
                                 <p class="card-text">Current Temperature: ${data.list[28].main.temp} °F</p>
                                 <p class="card-text">High Temperature ${data.list[28].main.temp_max} °F</p>
                                 <p class="card-text">Low Temperature ${data.list[28].main.temp_min} °F</p>
@@ -107,7 +108,7 @@ class showForcast {
                     <div class="col">
                         <div class="p-3 border bg-primary text-light">
                             <div class="card-body justify-content-center text-center">
-                                <h6 class="card-head">${data.list[36].dt_txt} ${data.list[36].weather[0].icon}</h6>
+                                <h6 class="card-head">${data.list[36].dt_txt} <img src= http://openweathermap.org/img/w/${data.list[36].weather[0].icon}.png></h6>
                                 <p class="card-text">Current Temperature: ${data.list[36].main.temp} °F</p>
                                 <p class="card-text">High Temperature ${data.list[36].main.temp_max} °F</p>
                                 <p class="card-text">Low Temperature ${data.list[36].main.temp_min} °F</p>
@@ -134,18 +135,20 @@ class showForcast {
     
     addCity(data) {
         var cityAdd = document.getElementById("display");
-        console.log(cityAdd);
         cityAdd.innerHTML += `<button type="button" id="${data.city.name}" class="btn btn-primary btn-lg p-3">${data.city.name}</button>`;
         localStorage.setItem(`${data.city.name}`,JSON.stringify(data));
+        var recallCity =`${data.city.name}`;
+        var cityRecalBtn = document.getElementById(`${data.city.name}`)
+
        
-        var cityRecalBtn =document.getElementById(`${data.city.name}`);
         console.log(cityRecalBtn);
         cityRecalBtn.addEventListener("click", () => {
+             console.log(`${data.city.name}`);
             Clear();
-            console.log(`${data.city.name}`);
-            const current = localStorage.getItem(`${data.city.name}`)
+           
+            
             // fetches and displays 5 day forecast
-            W.fetchWeather(current).then((data) => {
+            W.fetchWeather(recallCity).then((data) => {
                 console.log(data);
               show.displayForecast(data);
               show.Store(data);
@@ -153,7 +156,7 @@ class showForcast {
         
             });
             // fetches and displays current weather
-            CW.fetchCurrent(current).then((data) => {
+            CW.fetchCurrent(recallCity).then((data) => {
                 console.log(data);
                 SC.displayCurrent(data);
                 });

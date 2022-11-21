@@ -33,8 +33,8 @@ class showCurrent {
                 
                 <div class="card text-center bg-primary text-light  " style="width: 18rem;">
                     <div class="card-body justify-content-center text-center">
-                        <h6 class="card-head">${data.name} </h6>
-                        <p class="card-text">Current Temperature: ${data.main.temp} ${data.weather[0].icon}</p>
+                        <h6 class="card-head">${data.name} <img src= http://openweathermap.org/img/w/${data.weather[0].icon}.png></h6>
+                        <p class="card-text">Current Temperature: ${data.main.temp} </p>
                         <p class="card-text">High Temperature ${data.main.temp_max} °F</p>
                         <p class="card-text">Low Temperature ${data.main.temp_min} °F</p>
                         <p class="card-text">Humidity ${data.main.humidity} %</p>
