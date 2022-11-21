@@ -1,7 +1,3 @@
-$(document).ready(function() {
-    console.log("Ready!");
-});
-
 
 class weather{
  async fetchWeather(input) {
@@ -9,22 +5,14 @@ class weather{
     const myKey = "e229d0779c3492fe78bb28175e18dbe9";
     // converts city choice into latitude and longitude coordinates
     var location = await fetch(`https://api.openweathermap.org/geo/1.0/direct?q=${input}&limit=1&appid=${myKey}`);
-    console.log(location)
     // stores input as a json
     var coordinates = await location.json();
   
-    // fetches current conditions
-    const currentConditions = await fetch(`https://api.openweathermap.org/data/2.5/weather?lat=${coordinates[0].lat}&lon=${coordinates[0].lon}&exclude=hourly,minutely&appid=${myKey}&units=imperial`);
-
-    var storedCurrentConditions = await currentConditions.json();
-    
-    
     // fetches the 5 day forcast
     const forecast = await fetch(
         `https://api.openweathermap.org/data/2.5/forecast?lat=${coordinates[0].lat}&lon=${coordinates[0].lon}&appid=${myKey}&units=imperial`
       );
     var storedForecast = await forecast.json();
-console.log(storedForecast)
     return storedForecast;
     }
 }
@@ -36,10 +24,8 @@ class showForcast {
         this.container = document.getElementById("forecast");
         this.city;
     }
-
+// makes html for 5day forecast and returns values from openweather
     displayForecast(data) {
-        console.log(data);
-        console.log(`${data.list[4].weather[0].icon}`)
         this.container.innerHTML += `
 
 
@@ -132,40 +118,38 @@ class showForcast {
         this.city = JSON.parse(localStorage.getItem(`${input}`));
         return this.city
     }
-    
+    // adds city buttons and event listners
     addCity(data) {
         var cityAdd = document.getElementById("display");
-        cityAdd.innerHTML += `<button type="button" id="${data.city.name}" class="btn btn-primary btn-lg p-3">${data.city.name}</button>`;
+        cityAdd.innerHTML += `<button type="button" id="${data.city.name}" class="btn btn-primary btn-lg p-3 previous">${data.city.name}</button>`;
         localStorage.setItem(`${data.city.name}`,JSON.stringify(data));
-        var recallCity =`${data.city.name}`;
-        var cityRecalBtn = document.getElementById(`${data.city.name}`)
-
+        var cityRecalBtn = document.querySelectorAll(".previous")
        
-        console.log(cityRecalBtn);
-        cityRecalBtn.addEventListener("click", () => {
-             console.log(`${data.city.name}`);
-            Clear();
-           
-            
-            // fetches and displays 5 day forecast
-            W.fetchWeather(recallCity).then((data) => {
-                console.log(data);
-              show.displayForecast(data);
-              show.Store(data);
-              
-        
-            });
-            // fetches and displays current weather
-            CW.fetchCurrent(recallCity).then((data) => {
-                console.log(data);
-                SC.displayCurrent(data);
-                });
-        
-          });
+        // adds event listener to each button created
+        cityRecalBtn.forEach(element => element.addEventListener("click",getForecast))
         
     }
     
   }
+ const getForecast = (event) => {
+    let recallCity = event.target.getAttribute("id")
+   Clear();
+  
+   
+   // fetches and displays 5 day forecast
+   W.fetchWeather(recallCity).then((data) => {
+     show.displayForecast(data);
+     show.Store(data);
+     
+
+   });
+   // fetches and displays current weather
+   CW.fetchCurrent(recallCity).then((data) => {
+       SC.displayCurrent(data);
+       });
+
+ }
+// resets html for new inputs
 function Clear(){
     forecast = document.getElementById("forecast");
     forecast.innerHTML= "";
@@ -185,7 +169,6 @@ button.addEventListener("click", () => {
     search.value = '';
     // fetches and displays 5 day forecast
     W.fetchWeather(current).then((data) => {
-        console.log(data);
       show.displayForecast(data);
       show.Store(data);
       show.addCity(data);
@@ -193,21 +176,8 @@ button.addEventListener("click", () => {
     });
     // fetches and displays current weather
     CW.fetchCurrent(current).then((data) => {
-        console.log(data);
         SC.displayCurrent(data);
         });
 
   });
   
-//   function appendValueToStorage(key, value) {
-//   var values = JSON.parse(localStorage.getItem(key));
-//   if (values === null) {
-//     values = [];
-//   }
-
-//   values.push(value);
-//   localStorage.setItem(key, JSON.stringify(values));
-//   console.log(localStorage.getItem(key));
-// }
-
-// appendValueToStorage('todays-values', document.getElementById("sample").value);

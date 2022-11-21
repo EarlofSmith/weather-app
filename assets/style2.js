@@ -4,7 +4,6 @@ class currentWeather{
        const myKey = "e229d0779c3492fe78bb28175e18dbe9";
        // converts city choice into latitude and longitude coordinates
        var location = await fetch(`https://api.openweathermap.org/geo/1.0/direct?q=${input}&limit=1&appid=${myKey}`);
-       console.log(location)
        // stores input as a json
        var coordinates = await location.json();
      
@@ -12,9 +11,7 @@ class currentWeather{
        const currentConditions = await fetch(`https://api.openweathermap.org/data/2.5/weather?lat=${coordinates[0].lat}&lon=${coordinates[0].lon}&exclude=hourly,minutely&appid=${myKey}&units=imperial`);
    
        var storedCurrentConditions = await currentConditions.json();
-       console.log(storedCurrentConditions)
-       
-   
+
        return storedCurrentConditions;
        }
  }
@@ -24,9 +21,8 @@ class showCurrent {
         this.container = document.getElementById("current-weather");
         this.city;
     }
-
+// creates html and adds data for current weather
     displayCurrent(data) {
-        console.log(data);
         this.container.innerHTML += `
             <h5 class="h1 bg-primary color-white">Current Weather Conditions</h5>
             <div class="container d-flex justify-content-center p-3">
